@@ -15,6 +15,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     @IBOutlet weak var imgView: UIImageView!
     @IBOutlet weak var txtView: UITextView!
     @IBOutlet weak var imgView2: UIImageView!
+    @IBOutlet weak var btnUpload: UIButton!
     var selectImg1 = true
     
     override func viewDidLoad() {
@@ -55,15 +56,18 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     
     @IBAction func onUploadTapped(sender: AnyObject) {
-        self.myImageUploadRequest()
-        
+        btnUpload.enabled = false
+        NSOperationQueue.mainQueue().addOperationWithBlock({
+            self.txtView.text = ""
+            self.myImageUploadRequest()
+        })
     }
     
     func myImageUploadRequest()
     {
         
-        let myUrl = NSURL(string: "http://192.168.1.157:49343/api/upload");
-        //let myUrl = NSURL(string: "http://www.boredwear.com/utils/postImage.php");
+        let myUrl = NSURL(string: "http://thaihoa.somee.com/api/upload");
+        //let myUrl = NSURL(string: "http://192.168.1.157:49343/api/upload");
         
         let request = NSMutableURLRequest(URL:myUrl!);
         request.HTTPMethod = "POST";
@@ -88,6 +92,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         
         let task = NSURLSession.sharedSession().dataTaskWithRequest(request) {
             data, response, error in
+            self.btnUpload.enabled = true
             
             if (error == nil){
                 let s = String(data: data!, encoding: NSUTF8StringEncoding)
@@ -96,14 +101,11 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
                 })
             }
         }
-        
         task.resume()
-        
     }
     
-    
     func createBodyWithParameters(parameters: [String: String]?, filePathKey1: String?, filePathKey2: String?, imageDataKey: NSData, imageDataKey2: NSData, boundary: String) -> NSData {
-        var body = NSMutableData();
+        let body = NSMutableData();
         
         if parameters != nil {
             for (key, value) in parameters! {
@@ -130,20 +132,14 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         body.appendData(imageDataKey2)
         body.appendString("\r\n")
         
-        
         body.appendString("--\(boundary)--\r\n")
         
         return body
     }
     
-    
-    
-    
     func generateBoundaryString() -> String {
         return "Boundary-\(NSUUID().UUIDString)"
     }
-
-    
 
 }
 

@@ -63,6 +63,7 @@
                     <connections>
                         <outlet property="btnGet" destination="5S6-mJ-Spe" id="b3K-hK-K0c"/>
                         <outlet property="btnImg2" destination="c7j-JS-EVb" id="Be0-cM-FcD"/>
+                        <outlet property="btnUpload" destination="joy-bf-RP8" id="HFp-2O-vKv"/>
                         <outlet property="imgView" destination="QTo-gJ-xqI" id="A3r-aZ-YhR"/>
                         <outlet property="imgView2" destination="DRJ-Pb-1ch" id="ej3-Op-v2t"/>
                         <outlet property="txtView" destination="huC-12-KzE" id="gI2-Er-9ea"/>
